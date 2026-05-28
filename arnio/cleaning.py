@@ -1248,6 +1248,13 @@ def filter_rows(
     ArFrame or pd.DataFrame
         Filtered frame of the same type as the input.
 
+    Raises
+    ------
+    ValueError
+        If op is not a supported operator, or column does not exist in the frame.
+    TypeError
+        If the column values cannot be compared with the given value using the operator.
+
     Examples
     --------
     >>> frame = ar.read_csv("data.csv")
@@ -1316,6 +1323,13 @@ def round_numeric_columns(
     -------
     ArFrame or pd.DataFrame
         New frame with numeric columns rounded.
+
+    Raises
+    ------
+    TypeError
+        If subset is not a list, or decimals is not an integer.
+    ValueError
+        If any column in subset does not exist in the frame.
 
     Examples
     --------
@@ -1476,7 +1490,17 @@ def safe_divide_columns(
 
     Returns
     -------
-    ArFrame
+    ArFrame or pd.DataFrame
+        New frame with the division result added as output_column,
+        same type as the input.
+
+    Raises
+    ------
+    ValueError
+        If numerator or denominator column is not found, output_column is
+        empty, or either column contains non-numeric string values.
+    UserWarning
+        If output_column already exists in the frame (it will be overwritten).
 
     Examples
     --------
@@ -1671,6 +1695,15 @@ def replace_values(
     ArFrame or pd.DataFrame
         New frame with values replaced, same type as the input.
 
+     Raises
+    ------
+    TypeError
+        If mapping is not a dict-like object, or column is not a non-empty string.
+    ValueError
+        If mapping is empty.
+    KeyError
+        If column is specified but does not exist in the frame.
+
     Examples
     --------
     >>> frame = ar.read_csv("data.csv")
@@ -1764,6 +1797,13 @@ def standardize_missing_tokens(frame, tokens=None, subset=None):
     -------
     ArFrame
         New frame with missing token values replaced by NaN.
+
+    Raises
+    ------
+    TypeError
+        If subset is passed as a string instead of a list.
+    ValueError
+        If any column in subset does not exist in the frame.
 
     Examples
     --------
